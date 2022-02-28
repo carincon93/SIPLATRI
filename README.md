@@ -71,11 +71,11 @@ vsliveshare
 
 # Configuración inicial del proyecto
 
-Clonar el proyecto de SENNOVALAB. Aplicar los siguientes comandos:
+Clonar el proyecto de SIPLATRI. Aplicar los siguientes comandos:
 
 ```sh
-git clone https://github.com/carincon93/sennovalab.git
-cd sennovalab
+git clone https://github.com/carincon93/siplatri-2021.git
+cd siplatri-2021
 ```
 
 Instalar las dependencias de composer
