@@ -8,10 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Trimestre;
 use App\Horario;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -60,7 +61,7 @@ class User extends Authenticatable
         return $this->hasMany('App\OtraActividad');
     }
 
-    public function hasAccess() : bool
+    public function hasAccess(): bool
     {
         if ($this->rol == 'admin') {
             return true;
@@ -82,14 +83,14 @@ class User extends Authenticatable
     public function scopeObtenerInstructoresDisponibles($query, $instructoresRegistrados, $franja_id, $dia, $trimestre, $instructor_id, $ano)
     {
         $instructores = $query->orderBy('nombre')
-            ->whereDoesntHave('horarios', function($query) use($instructoresRegistrados, $franja_id, $dia, $trimestre, $instructor_id, $ano) {
+            ->whereDoesntHave('horarios', function ($query) use ($instructoresRegistrados, $franja_id, $dia, $trimestre, $instructor_id, $ano) {
                 $query->whereIn('horarios.instructor_id', $instructoresRegistrados)
-                ->where('horarios.franja_id', $franja_id)
-                ->where('horarios.dia', $dia)
-                ->join('programaciones', 'horarios.programacion_id', '=', 'programaciones.id')
-                ->where('programaciones.trimestre', $trimestre)
-                ->where('programaciones.ano', $ano)
-                ->where('users.id', '!=', $instructor_id);
+                    ->where('horarios.franja_id', $franja_id)
+                    ->where('horarios.dia', $dia)
+                    ->join('programaciones', 'horarios.programacion_id', '=', 'programaciones.id')
+                    ->where('programaciones.trimestre', $trimestre)
+                    ->where('programaciones.ano', $ano)
+                    ->where('users.id', '!=', $instructor_id);
             });
 
         return $instructores;
@@ -99,7 +100,7 @@ class User extends Authenticatable
     {
         $trimestres = Trimestre::where('programando', true)->first();
 
-        if(!empty($trimestres)) {
+        if (!empty($trimestres)) {
             $horasAcumuladas = $this->selectRaw('SUM(TO_SECONDS(franjas.horaFin) - TO_SECONDS(franjas.horaInicio)) as horasAcumuladas')
                 ->where('users.id', $this->id)
                 ->join('horarios', 'users.id', '=', 'horarios.instructor_id')
@@ -116,7 +117,7 @@ class User extends Authenticatable
                 ->where('otras_actividades.ano', $trimestres->ano)
                 ->first();
 
-            if($horasActividades) {
+            if ($horasActividades) {
                 $tiempo = $horasAcumuladas->horasAcumuladas + $horasActividades->horasActividades;
                 $hora   = floor($tiempo / 3600);
                 $min    = floor($tiempo / 60 % 60);
