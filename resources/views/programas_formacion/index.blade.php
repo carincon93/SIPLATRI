@@ -14,8 +14,9 @@
                     {{ $sumaAprendices->total }} aprendices
                 </span>
             </div>
-            @can ('admin')
-                <a href="{{ route('programas_formacion.create') }}" class="btn btn-sm btn-success h-25">Crear programa de formación</a>
+            @can('admin')
+                <a href="{{ route('programas_formacion.create') }}" class="btn btn-sm btn-success h-25">Crear programa de
+                    formación</a>
             @endcan
         </div>
         @include('partials.messages')
@@ -43,13 +44,22 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="acciones">
-                                            <a href="{{ route('programas_formacion.show', $programaFormacion->id) }}"><i class="far fa-calendar"></i></a>
-                                            @can ('admin')
-                                                <a href="{{ route('programas_formacion.edit', $programaFormacion->id) }}"><i class="fa fa-edit"></i></a>
+                                            <a href="{{ route('programas_formacion.show', $programaFormacion->id) }}"
+                                                data-toggle="tooltip" data-placement="top" title="Programacion"><i
+                                                    class="far fa-calendar"></i></a>
+                                            @can('admin')
+                                                <a href="{{ route('programas_formacion.edit', $programaFormacion->id) }}"
+                                                    data-toggle="tooltip" data-placement="top" title="Editar"><i
+                                                        class="fa fa-edit"></i></a>
                                             @endcan
-                                            <a href="{{ route('programas_formacion.exportar', $programaFormacion->id) }}"><i class="fa fa-file-excel"></i></a>
-                                            @can ('admin')
-                                                <button type="button" class="no-button" @click="modalEliminar({{$programaFormacion->id}})"><i class="fa fa-times"></i></button>
+                                            <a href="{{ route('programas_formacion.exportar', $programaFormacion->id) }}"
+                                                data-toggle="tooltip" data-placement="top" title="Exportar"><i
+                                                    class="fa fa-file-excel"></i></a>
+                                            @can('admin')
+                                                <button type="button" class="no-button"
+                                                    @click="modalEliminar({{ $programaFormacion->id }})" data-toggle="tooltip"
+                                                    data-placement="top" title="Eliminar"><i
+                                                        class="fa fa-times"></i></button>
                                             @endcan
                                         </div>
                                     </div>
@@ -67,7 +77,8 @@
     </div>
 
     <modal v-if="modal" @close="modal = false">
-        <h3 slot="header" class="text-lowercase text-center">¿<span class="text-uppercase">E</span>stás seguro(a) que desea eliminar este programa de formación?</h3>
+        <h3 slot="header" class="text-lowercase text-center">¿<span class="text-uppercase">E</span>stás seguro(a) que desea
+            eliminar este programa de formación?</h3>
 
         <section slot="body">
 

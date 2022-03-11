@@ -6,7 +6,7 @@
     <div class="container">
         <div class="d-flex flex-column flex-lg-row form-busqueda-programacion justify-content-between mb-5">
             <h4 class="text-black-50">Competencias</h4>
-            @can ('admin')
+            @can('admin')
                 <a href="{{ route('competencias.create') }}" class="btn btn-sm btn-success">Crear competencia</a>
             @endcan
         </div>
@@ -25,7 +25,9 @@
                                 <div class="row m-0">
                                     <div class="col-md-7">
                                         <div>{{ $competencia->descripcion }}</div>
-                                        <div class="text-black-50"><i class="fa fa-clock mr-2"></i>{{ $competencia->calcularHorasAcumuladas() != null ? $competencia->calcularHorasAcumuladas() : '--:--:--' }} horas programadas</div>
+                                        <div class="text-black-50"><i
+                                                class="fa fa-clock mr-2"></i>{{ $competencia->calcularHorasAcumuladas() != null ? $competencia->calcularHorasAcumuladas() : '--:--:--' }}
+                                            horas programadas</div>
                                     </div>
                                     <div class="col-md-3">
                                         __
@@ -33,10 +35,17 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="acciones">
-                                            <a href="{{ route('competencias.show', $competencia->id) }}"><i class="fa fa-eye"></i></a>
-                                            @can ('admin')
-                                                <a  href="{{ route('competencias.edit', $competencia->id) }}"><i class="fa fa-edit"></i></a>
-                                                <button type="button" class="no-button" @click="modalEliminar({{$competencia->id}})"><i class="fa fa-times"></i></button>
+                                            <a href="{{ route('competencias.show', $competencia->id) }}"
+                                                data-toggle="tooltip" data-placement="top" title="Competencias"><i
+                                                    class="fa fa-eye"></i></a>
+                                            @can('admin')
+                                                <a href="{{ route('competencias.edit', $competencia->id) }}"
+                                                    data-toggle="tooltip" data-placement="top" title="Editar"><i
+                                                        class="fa fa-edit"></i></a>
+                                                <button type="button" class="no-button"
+                                                    @click="modalEliminar({{ $competencia->id }})" data-toggle="tooltip"
+                                                    data-placement="top" title="Eliminar"><i
+                                                        class="fa fa-times"></i></button>
                                             @endcan
                                         </div>
                                     </div>
@@ -54,7 +63,8 @@
     </div>
 
     <modal v-if="modal" @close="modal = false">
-        <h3 slot="header" class="text-lowercase text-center">¿<span class="text-uppercase">E</span>stás seguro(a) que desea eliminar esta competencia?</h3>
+        <h3 slot="header" class="text-lowercase text-center">¿<span class="text-uppercase">E</span>stás seguro(a) que desea
+            eliminar esta competencia?</h3>
 
         <section slot="body">
 
