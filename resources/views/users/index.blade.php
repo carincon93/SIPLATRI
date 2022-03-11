@@ -64,7 +64,8 @@
                                     <div class="col-md-2">
                                         <div class="acciones">
                                             <a href="{{ route('users.show', $usuario->id) }}" data-toggle="tooltip"
-                                                data-placement="top" title="Programa"><i class="far fa-calendar"></i></a>
+                                                data-placement="top" title="Programación"><i
+                                                    class="far fa-calendar"></i></a>
                                             @can('admin')
                                                 <a href="{{ route('users.edit', $usuario->id) }}" data-toggle="tooltip"
                                                     data-placement="top" title="Editar"><i class="fa fa-edit"></i></a>

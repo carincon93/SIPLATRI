@@ -33,14 +33,15 @@
                                     <div class="col-md-2">
                                         <div class="acciones">
                                             <a href="{{ route('ambientes.show', $ambiente->id) }}" data-toggle="tooltip"
-                                                data-placement="top" title="Programación"><i class="far fa-calendar"></i></a>
+                                                data-placement="top" title="Programación"><i
+                                                    class="far fa-calendar"></i></a>
                                             @can('admin')
                                                 <a href="{{ route('ambientes.edit', $ambiente->id) }}" data-toggle="tooltip"
                                                     data-placement="top" title="Editar"><i class="fa fa-edit"></i></a>
                                             @endcan
-                                            <a href="{{ route('ambientes.exportar', $ambiente->id) }}" data-toggle="tooltip"
-                                                data-placement="top" title="Descargar la programación"><i
-                                                    class="fa fa-file-excel"></i></a>
+                                            <a href="{{ route('ambientes.exportar', $ambiente->id) }}"
+                                                data-toggle="tooltip" data-placement="top"
+                                                title="Descargar la programación"><i class="fa fa-file-excel"></i></a>
                                             @can('admin')
                                                 <button type="button" class="no-button"
                                                     @click="modalEliminar({{ $ambiente->id }})"><i class="fa fa-times"

@@ -45,7 +45,7 @@
                                     <div class="col-md-2">
                                         <div class="acciones">
                                             <a href="{{ route('programas_formacion.show', $programaFormacion->id) }}"
-                                                data-toggle="tooltip" data-placement="top" title="Programacion"><i
+                                                data-toggle="tooltip" data-placement="top" title="Programación"><i
                                                     class="far fa-calendar"></i></a>
                                             @can('admin')
                                                 <a href="{{ route('programas_formacion.edit', $programaFormacion->id) }}"

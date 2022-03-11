@@ -32,7 +32,7 @@
                                     <div class="col-md-2">
                                         <div class="acciones">
                                             <a href="{{ route('resultados_aprendizaje.show', $resultadoAprendizaje->id) }}"
-                                                data-toggle="tooltip" data-placement="top" title="Resultados"><i
+                                                data-toggle="tooltip" data-placement="top" title="Detalles"><i
                                                     class="fa fa-eye"></i></a>
                                             @can('admin')
                                                 <a href="{{ route('resultados_aprendizaje.edit', $resultadoAprendizaje->id) }}"
