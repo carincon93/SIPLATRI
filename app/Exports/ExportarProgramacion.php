@@ -13,7 +13,8 @@ class ExportarProgramacion implements FromView, ShouldAutoSize
 {
     private $programacion_id;
 
-    public function __construct($programacion_id) {
+    public function __construct($programacion_id)
+    {
         $this->programacion_id = $programacion_id;
     }
 
@@ -21,6 +22,8 @@ class ExportarProgramacion implements FromView, ShouldAutoSize
     {
         $programacion  = Programacion::findOrFail($this->programacion_id);
         $franjas       = Franja::orderBy('horaFin')->get();
+
+        error_log($franjas);
 
         $horarios = $programacion->horario()->get();
         return view('exportables.programacion', compact('horarios', 'franjas'));
