@@ -81,7 +81,7 @@ cd siplatri-2021
 Instalar las dependencias de composer
 
 ```sh
-php artisan composer install
+composer install
 ```
 
 Configuración del ambiente de trabajo. Duplicar el archivo .env.example y cambiar el nombre por .env
