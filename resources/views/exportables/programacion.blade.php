@@ -1,47 +1,55 @@
+<style>
+    table td {
+        border: 1 px solid black
+    }
+
+</style>
 <table class="table table-bordered table-horarios dataTable">
     <thead class="text-center">
         <tr>
-            <th>Hora</th>
-            <th>Lunes</th>
-            <th>Martes</th>
-            <th>Miércoles</th>
-            <th>Jueves</th>
-            <th>Viernes</th>
-            <th>Sábado</th>
+            <th style="background-color:#fc7323"><b>Hora</b></th>
+            <th style="background-color:#fc7323"><b>Lunes</b></th>
+            <th style="background-color:#fc7323"><b>Martes</b></th>
+            <th style="background-color:#fc7323"><b>Miércoles</b></th>
+            <th style="background-color:#fc7323"><b>Jueves</b></th>
+            <th style="background-color:#fc7323"><b>Viernes</b></th>
+            <th style="background-color:#fc7323"><b>Sábado</b></th>
         </tr>
     </thead>
     <tbody>
         @forelse ($franjas as $key => $franja)
             <tr>
-                <td>
-                    <div>
-                        {{ $franja->horaInicio .' - '. $franja->horaFin }}
-                    </div>
+                <td style="background-color:#238276; color: #FFffff">
+                    <b>
+                        <div>
+                            {{ $franja->horaInicio . ' - ' . $franja->horaFin }}
+                        </div>
+                    </b>
                 </td>
                 <td>
                     @foreach ($horarios as $key => $asignacion)
                         @if ($asignacion->franja->id == $franja->id && $asignacion->dia == 'lunes')
 
-                            Ambiente <br>
+                            <b>Ambiente</b> <br>
                             {{ $asignacion->nombreAmbiente }}
                             <br>
-                            Instructor <br>
+                            <b>Instructor </b><br>
                             {{ $asignacion->nombreInstructor }}
                             <br>
-                            Resultado <br>
+                            <b>Resultado </b><br>
                             {{ $asignacion->resultado_aprendizaje != null ? $asignacion->resultado_aprendizaje->descripcion : '' }}
                             {{-- Competencia <br>
                             {{ $asignacion->competencia->resumen }}
                             <br>
                             Resultados de aprendizaje <br>
                             <ul>
-                                @foreach($asignacion->competencia->resultadosAprendizaje as $resultadoAprendizaje)
+                                @foreach ($asignacion->competencia->resultadosAprendizaje as $resultadoAprendizaje)
                                     <li>{{ $resultadoAprendizaje->descripcion }}</li>
                                 @endforeach
                             </ul> --}}
                             <br>
-                            Grupo <br>
-                            {{ $asignacion->programaFormacionNombre.' ('.$asignacion->numeroFicha.')' }}
+                            <b>Grupo </b><br>
+                            {{ $asignacion->programaFormacionNombre . ' (' . $asignacion->numeroFicha . ')' }}
                             <br>
                             @if ($asignacion->fechaInicio)
                                 Fechas <br>
@@ -71,13 +79,13 @@
                             <br>
                             Resultados de aprendizaje <br>
                             <ul>
-                                @foreach($asignacion->competencia->resultadosAprendizaje as $resultadoAprendizaje)
+                                @foreach ($asignacion->competencia->resultadosAprendizaje as $resultadoAprendizaje)
                                     <li>{{ $resultadoAprendizaje->descripcion }}</li>
                                 @endforeach
                             </ul> --}}
                             <br>
                             Grupo <br>
-                            {{ $asignacion->programaFormacionNombre.' ('.$asignacion->numeroFicha.')' }}
+                            {{ $asignacion->programaFormacionNombre . ' (' . $asignacion->numeroFicha . ')' }}
                             <br>
                             @if ($asignacion->fechaInicio)
                                 Fechas <br>
@@ -94,26 +102,26 @@
                     @foreach ($horarios as $key => $asignacion)
                         @if ($asignacion->franja->id == $franja->id && $asignacion->dia == 'miercoles')
 
-                            Ambiente <br>
+                            <b>Ambiente</b> <br>
                             {{ $asignacion->nombreAmbiente }}
                             <br>
-                            Instructor <br>
+                            <b>Instructor </b><br>
                             {{ $asignacion->nombreInstructor }}
                             <br>
-                            Resultado <br>
+                            <b>Resultado </b><br>
                             {{ $asignacion->resultado_aprendizaje != null ? $asignacion->resultado_aprendizaje->descripcion : '' }}
                             {{-- Competencia <br>
                             {{ $asignacion->competencia->resumen }}
                             <br>
                             Resultados de aprendizaje <br>
                             <ul>
-                                @foreach($asignacion->competencia->resultadosAprendizaje as $resultadoAprendizaje)
+                                @foreach ($asignacion->competencia->resultadosAprendizaje as $resultadoAprendizaje)
                                     <li>{{ $resultadoAprendizaje->descripcion }}</li>
                                 @endforeach
                             </ul> --}}
                             <br>
-                            Grupo <br>
-                            {{ $asignacion->programaFormacionNombre.' ('.$asignacion->numeroFicha.')' }}
+                            <b>Grupo </b><br>
+                            {{ $asignacion->programaFormacionNombre . ' (' . $asignacion->numeroFicha . ')' }}
                             <br>
                             @if ($asignacion->fechaInicio)
                                 Fechas <br>
@@ -130,26 +138,26 @@
                     @foreach ($horarios as $key => $asignacion)
                         @if ($asignacion->franja->id == $franja->id && $asignacion->dia == 'jueves')
 
-                            Ambiente <br>
+                            <b>Ambiente</b> <br>
                             {{ $asignacion->nombreAmbiente }}
                             <br>
-                            Instructor <br>
+                            <b>Instructor </b><br>
                             {{ $asignacion->nombreInstructor }}
                             <br>
-                            Resultado <br>
+                            <b>Resultado </b><br>
                             {{ $asignacion->resultado_aprendizaje != null ? $asignacion->resultado_aprendizaje->descripcion : '' }}
                             {{-- Competencia <br>
                             {{ $asignacion->competencia->resumen }}
                             <br>
                             Resultados de aprendizaje <br>
                             <ul>
-                                @foreach($asignacion->competencia->resultadosAprendizaje as $resultadoAprendizaje)
+                                @foreach ($asignacion->competencia->resultadosAprendizaje as $resultadoAprendizaje)
                                     <li>{{ $resultadoAprendizaje->descripcion }}</li>
                                 @endforeach
                             </ul> --}}
                             <br>
-                            Grupo <br>
-                            {{ $asignacion->programaFormacionNombre.' ('.$asignacion->numeroFicha.')' }}
+                            <b>Grupo </b><br>
+                            {{ $asignacion->programaFormacionNombre . ' (' . $asignacion->numeroFicha . ')' }}
                             <br>
                             @if ($asignacion->fechaInicio)
                                 Fechas <br>
@@ -166,26 +174,26 @@
                     @foreach ($horarios as $key => $asignacion)
                         @if ($asignacion->franja->id == $franja->id && $asignacion->dia == 'viernes')
 
-                            Ambiente <br>
+                            <b>Ambiente</b> <br>
                             {{ $asignacion->nombreAmbiente }}
                             <br>
-                            Instructor <br>
+                            <b>Instructor </b><br>
                             {{ $asignacion->nombreInstructor }}
                             <br>
-                            Resultado <br>
+                            <b>Resultado </b><br>
                             {{ $asignacion->resultado_aprendizaje != null ? $asignacion->resultado_aprendizaje->descripcion : '' }}
                             {{-- Competencia <br>
                             {{ $asignacion->competencia->resumen }}
                             <br>
                             Resultados de aprendizaje <br>
                             <ul>
-                                @foreach($asignacion->competencia->resultadosAprendizaje as $resultadoAprendizaje)
+                                @foreach ($asignacion->competencia->resultadosAprendizaje as $resultadoAprendizaje)
                                     <li>{{ $resultadoAprendizaje->descripcion }}</li>
                                 @endforeach
                             </ul> --}}
                             <br>
-                            Grupo <br>
-                            {{ $asignacion->programaFormacionNombre.' ('.$asignacion->numeroFicha.')' }}
+                            <b>Grupo </b><br>
+                            {{ $asignacion->programaFormacionNombre . ' (' . $asignacion->numeroFicha . ')' }}
                             <br>
                             @if ($asignacion->fechaInicio)
                                 Fechas <br>
@@ -202,26 +210,26 @@
                     @foreach ($horarios as $key => $asignacion)
                         @if ($asignacion->franja->id == $franja->id && $asignacion->dia == 'sabado')
 
-                            Ambiente <br>
+                            <b>Ambiente</b> <br>
                             {{ $asignacion->nombreAmbiente }}
                             <br>
-                            Instructor <br>
+                            <b>Instructor </b><br>
                             {{ $asignacion->nombreInstructor }}
                             <br>
-                            Resultado <br>
+                            <b>Resultado </b><br>
                             {{ $asignacion->resultado_aprendizaje != null ? $asignacion->resultado_aprendizaje->descripcion : '' }}
                             {{-- Competencia <br>
                             {{ $asignacion->competencia->resumen }}
                             <br>
                             Resultados de aprendizaje <br>
                             <ul>
-                                @foreach($asignacion->competencia->resultadosAprendizaje as $resultadoAprendizaje)
+                                @foreach ($asignacion->competencia->resultadosAprendizaje as $resultadoAprendizaje)
                                     <li>{{ $resultadoAprendizaje->descripcion }}</li>
                                 @endforeach
                             </ul> --}}
                             <br>
-                            Grupo <br>
-                            {{ $asignacion->programaFormacionNombre.' ('.$asignacion->numeroFicha.')' }}
+                            <b>Grupo </b><br>
+                            {{ $asignacion->programaFormacionNombre . ' (' . $asignacion->numeroFicha . ')' }}
                             <br>
                             <br>
                             @if ($asignacion->fechaInicio)

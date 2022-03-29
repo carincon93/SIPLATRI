@@ -4,10 +4,10 @@
 
 @section('content')
     <div class="container">
-        <h4 class="text-black-50 mb-4">Búsqueda</h4>
+        <h4 class="text-black-50 mb-4">Búsqueda de programación</h4>
 
         <div class="alert alert-info">
-            <p class="text-black-50 mb-0">Realiza una búsqueda por uno o varios ítems.</p>
+            <p class="text-black-50 mb-0">Realiza una búsqueda de programación por uno o varios ítems; puedes obtener resultados por ambientes, instructores o por otras opciones.</p>
         </div>
 
         <form class="mb-3" action="{{ route('filtros') }}" method="get">
