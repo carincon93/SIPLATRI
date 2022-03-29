@@ -6,7 +6,7 @@
     <div class="container">
         <div class="d-flex flex-column flex-lg-row form-busqueda-programacion justify-content-between mb-5">
             <h4 class="text-black-50">Ambientes</h4>
-            @can ('admin')
+            @can('admin')
                 <a href="{{ route('ambientes.create') }}" class="btn btn-sm btn-success">Crear ambiente</a>
             @endcan
         </div>
@@ -26,17 +26,27 @@
                                 <div class="row m-0">
                                     <div class="col-md-10">
                                         <div>{{ $ambiente->nombre }}</div>
-                                        <div class="text-black-50"><i class="fa fa-clock mr-2"></i>{{ $ambiente->calcularHorasAcumuladas() != null ? $ambiente->calcularHorasAcumuladas() : '--:--:--' }} horas programadas</div>
+                                        <div class="text-black-50"><i
+                                                class="fa fa-clock mr-2"></i>{{ $ambiente->calcularHorasAcumuladas() != null ? $ambiente->calcularHorasAcumuladas() : '--:--:--' }}
+                                            horas programadas</div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="acciones">
-                                            <a href="{{ route('ambientes.show', $ambiente->id) }}"><i class="far fa-calendar"></i></a>
-                                            @can ('admin')
-                                                <a href="{{ route('ambientes.edit', $ambiente->id) }}"><i class="fa fa-edit"></i></a>
+                                            <a href="{{ route('ambientes.show', $ambiente->id) }}" data-toggle="tooltip"
+                                                data-placement="top" title="Programación"><i
+                                                    class="far fa-calendar"></i></a>
+                                            @can('admin')
+                                                <a href="{{ route('ambientes.edit', $ambiente->id) }}" data-toggle="tooltip"
+                                                    data-placement="top" title="Editar"><i class="fa fa-edit"></i></a>
                                             @endcan
-                                            <a href="{{ route('ambientes.exportar', $ambiente->id) }}"><i class="fa fa-file-excel"></i></a>
-                                            @can ('admin')
-                                                <button type="button" class="no-button" @click="modalEliminar({{$ambiente->id}})"><i class="fa fa-times"></i></button>
+                                            <a href="{{ route('ambientes.exportar', $ambiente->id) }}"
+                                                data-toggle="tooltip" data-placement="top"
+                                                title="Descargar la programación"><i class="fa fa-file-excel"></i></a>
+                                            @can('admin')
+                                                <button type="button" class="no-button"
+                                                    @click="modalEliminar({{ $ambiente->id }})"><i class="fa fa-times"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Eliminar"></i></button>
                                             @endcan
                                         </div>
                                     </div>
@@ -54,7 +64,8 @@
     </div>
 
     <modal v-if="modal" @close="modal = false">
-        <h3 slot="header" class="text-lowercase text-center">¿<span class="text-uppercase">E</span>stás seguro(a) que desea eliminar este ambiente?</h3>
+        <h3 slot="header" class="text-lowercase text-center">¿<span class="text-uppercase">E</span>stás seguro(a) que desea
+            eliminar este ambiente?</h3>
 
         <section slot="body">
 
@@ -66,4 +77,5 @@
             </form>
         </section>
     </modal>
+
 @endsection

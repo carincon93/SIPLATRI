@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     $('.fecha').each(function (index, dateElem) {
         var $dateElem = $(dateElem);
         var formatted = moment($dateElem.text()).locale('es').format('LL');

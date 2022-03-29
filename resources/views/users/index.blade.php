@@ -6,7 +6,7 @@
     <div class="container">
         <div class="d-flex flex-column flex-lg-row form-busqueda-programacion justify-content-between mb-5">
             <h4 class="text-black-50">Usuarios</h4>
-            @can ('admin')
+            @can('admin')
                 <a href="{{ route('users.create') }}" class="btn btn-sm btn-success">Crear usuario</a>
             @endcan
         </div>
@@ -27,7 +27,7 @@
                             <td>
                                 <div class="row m-0">
                                     <div class="col-md-1">
-                                        @if ($horasAcumuladas != null && $usuario->tipoContrato == 'carrera administrativa' || $horasAcumuladas != null && $usuario->tipoContrato == 'periodo de prueba' || $horasAcumuladas != null && $usuario->tipoContrato == 'provisional' || $horasAcumuladas != null && $usuario->tipoContrato == 'temporal')
+                                        @if (($horasAcumuladas != null && $usuario->tipoContrato == 'carrera administrativa') || ($horasAcumuladas != null && $usuario->tipoContrato == 'periodo de prueba') || ($horasAcumuladas != null && $usuario->tipoContrato == 'provisional') || ($horasAcumuladas != null && $usuario->tipoContrato == 'temporal'))
                                             @if ($horasAcumuladas >= '30:00:00')
                                                 <i class="fa fa-circle circulo-verde"></i>
                                             @elseif ($horasAcumuladas < '30:00:00' && $horasAcumuladas >= '25:00:00')
@@ -50,7 +50,9 @@
                                     <div class="col-md-9">
                                         <div>{{ $usuario->nombre }}</div>
                                         <div class="text-black-50">
-                                            <small><i class="fa fa-clock mr-2"></i>{{ $horasAcumuladas != null ? $horasAcumuladas : '--:--:--' }} de
+                                            <small><i
+                                                    class="fa fa-clock mr-2"></i>{{ $horasAcumuladas != null ? $horasAcumuladas : '--:--:--' }}
+                                                de
                                                 @if ($usuario->tipoContrato == 'carrera administrativa' || $usuario->tipoContrato == 'periodo de prueba' || $usuario->tipoContrato == 'provisional' || $usuario->tipoContrato == 'temporal')
                                                     32h (máximo)
                                                 @elseif ($usuario->tipoContrato == 'contrato')
@@ -61,13 +63,20 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="acciones">
-                                            <a href="{{ route('users.show', $usuario->id) }}"><i class="far fa-calendar"></i></a>
-                                            @can ('admin')
-                                                <a href="{{ route('users.edit', $usuario->id) }}"><i class="fa fa-edit"></i></a>
+                                            <a href="{{ route('users.show', $usuario->id) }}" data-toggle="tooltip"
+                                                data-placement="top" title="Programación"><i
+                                                    class="far fa-calendar"></i></a>
+                                            @can('admin')
+                                                <a href="{{ route('users.edit', $usuario->id) }}" data-toggle="tooltip"
+                                                    data-placement="top" title="Editar"><i class="fa fa-edit"></i></a>
                                             @endcan
-                                            <a href="{{ route('users.exportar', $usuario->id) }}"><i class="fa fa-file-excel"></i></a>
-                                            @can ('admin')
-                                                <button type="button" class="no-button" @click="modalEliminar({{$usuario->id}})"><i class="fa fa-times"></i></button>
+                                            <a href="{{ route('users.exportar', $usuario->id) }}" data-toggle="tooltip"
+                                                data-placement="top" title="Exportar"><i class="fa fa-file-excel"></i></a>
+                                            @can('admin')
+                                                <button type="button" class="no-button"
+                                                    @click="modalEliminar({{ $usuario->id }})" data-toggle="tooltip"
+                                                    data-placement="top" title="Eliminar"><i
+                                                        class="fa fa-times"></i></button>
                                             @endcan
                                         </div>
                                     </div>
@@ -85,7 +94,8 @@
     </div>
 
     <modal v-if="modal" @close="modal = false">
-        <h3 slot="header" class="text-lowercase text-center">¿<span class="text-uppercase">E</span>stás seguro(a) que desea eliminar este usuario?</h3>
+        <h3 slot="header" class="text-lowercase text-center">¿<span class="text-uppercase">E</span>stás seguro(a) que desea
+            eliminar este usuario?</h3>
 
         <section slot="body">
 

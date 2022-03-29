@@ -6,7 +6,7 @@
     <div class="container">
         <div class="d-flex flex-column flex-lg-row form-busqueda-programacion justify-content-between mb-5">
             <h4 class="text-black-50">Municipios</h4>
-            @can ('admin')
+            @can('admin')
                 <a href="{{ route('municipios.create') }}" class="btn btn-sm btn-success mb-2">Crear municipio</a>
             @endcan
         </div>
@@ -34,9 +34,13 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="acciones">
-                                            @can ('admin')
-                                                <a href="{{ route('municipios.edit', $municipio->id) }}"><i class="fa fa-edit"></i></a>
-                                                <button type="button" class="no-button" @click="modalEliminar({{$municipio->id}})"><i class="fa fa-times"></i></button>
+                                            @can('admin')
+                                                <a href="{{ route('municipios.edit', $municipio->id) }}" data-toggle="tooltip"
+                                                    data-placement="top" title="Editar"><i class="fa fa-edit"></i></a>
+                                                <button type="button" class="no-button"
+                                                    @click="modalEliminar({{ $municipio->id }})" data-toggle="tooltip"
+                                                    data-placement="top" title="Eliminar"><i
+                                                        class="fa fa-times"></i></button>
                                             @endcan
                                         </div>
                                     </div>
@@ -54,7 +58,8 @@
     </div>
 
     <modal v-if="modal" @close="modal = false">
-        <h3 slot="header" class="text-lowercase text-center">¿<span class="text-uppercase">E</span>stás seguro(a) que desea eliminar este municipio?</h3>
+        <h3 slot="header" class="text-lowercase text-center">¿<span class="text-uppercase">E</span>stás seguro(a) que desea
+            eliminar este municipio?</h3>
 
         <section slot="body">
 

@@ -6,7 +6,7 @@
     <div class="container">
         <div class="d-flex flex-column flex-lg-row form-busqueda-programacion justify-content-between mb-5">
             <h4 class="text-black-50">Actividades</h4>
-            @can ('admin')
+            @can('admin')
                 <a href="{{ route('actividades.create') }}" class="btn btn-sm btn-success">Crear actividad</a>
             @endcan
         </div>
@@ -25,22 +25,28 @@
                                 <div class="row m-0">
                                     <div class="col-md-7">
                                         <div>{{ $actividad->personal->nombre }}</div>
-                                        <div class="text-black-50"><i class="fa fa-clock mr-2"></i>{{ $actividad->horas }}</div>
+                                        <div class="text-black-50"><i class="fa fa-clock mr-2"></i>{{ $actividad->horas }}
+                                        </div>
                                     </div>
                                     <div class="col-md-3">
                                         <p class="mb-0 text-black-50">
                                             {{ $actividad->tipo_actividad }} <br>
                                             Día: {{ $actividad->dia }} <br>
                                             Horas: {{ $actividad->horas }} <br>
-                                            Trimestre {{ $actividad->trimestre .' de '.$actividad->ano  }}
+                                            Trimestre {{ $actividad->trimestre . ' de ' . $actividad->ano }}
                                         </p>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="acciones">
-                                            @can ('admin')
+                                            @can('admin')
                                                 {{-- <a href="{{ route('actividades.show', $actividad->id) }}"><i class="fa fa-eye"></i></a> --}}
-                                                <a href="{{ route('actividades.edit', $actividad->id) }}"><i class="fa fa-edit"></i></a>
-                                                <button type="button" class="no-button" @click="modalEliminar({{$actividad->id}})"><i class="fa fa-times"></i></button>
+                                                <a href="{{ route('actividades.edit', $actividad->id) }}"
+                                                    data-toggle="tooltip" data-placement="top" title="Editar"><i
+                                                        class="fa fa-edit"></i></a>
+                                                <button type="button" class="no-button"
+                                                    @click="modalEliminar({{ $actividad->id }})" data-toggle="tooltip"
+                                                    data-placement="top" title="Eliminar"><i
+                                                        class="fa fa-times"></i></button>
                                             @endcan
                                         </div>
                                     </div>
@@ -57,7 +63,8 @@
         </div>
     </div>
     <modal v-if="modal" @close="modal = false">
-        <h3 slot="header" class="text-lowercase text-center">¿<span class="text-uppercase">E</span>stás seguro(a) que desea eliminar esta actividad?</h3>
+        <h3 slot="header" class="text-lowercase text-center">¿<span class="text-uppercase">E</span>stás seguro(a) que desea
+            eliminar esta actividad?</h3>
 
         <section slot="body">
 
