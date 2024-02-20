@@ -28,7 +28,7 @@ class Ambiente extends Model
 
     public function horario()
     {
-        $trimestres = Trimestre::where('programando', true)->firstOrFail();
+        $trimestres = Trimestre::where('programando', true)->first();
 
         return $this->horarios()->select('ambientes.nombre as nombreAmbiente', 'horarios.fechaInicio', 'horarios.fechaFin', 'users.nombre as nombreInstructor', 'horarios.franja_id', 'horarios.dia', 'programas_formacion.nombre as programaFormacionNombre', 'programas_formacion.numeroFicha')
             ->join('users', 'horarios.instructor_id', 'users.id')
@@ -62,7 +62,7 @@ class Ambiente extends Model
     public function scopeObtenerAmbientesDisponibles($query, $ambientesRegistrados, $franja_id, $dia, $trimestre = null, $ambiente_id, $ano)
     {
         $ambientesDisponibles = $query->orderBy('nombre')
-            ->whereDoesntHave('horarios', function($query) use($ambientesRegistrados, $franja_id, $dia, $trimestre, $ambiente_id, $ano) {
+            ->whereDoesntHave('horarios', function ($query) use ($ambientesRegistrados, $franja_id, $dia, $trimestre, $ambiente_id, $ano) {
                 $query->whereIn('horarios.ambiente_id', $ambientesRegistrados)
                     ->where('horarios.franja_id', $franja_id)
                     ->where('horarios.dia', $dia)
@@ -77,10 +77,10 @@ class Ambiente extends Model
 
     public function calcularHorasAcumuladas()
     {
-        $trimestres = Trimestre::where('programando', true)->firstOrFail();
+        $trimestres = Trimestre::where('programando', true)->first();
 
-        if(!empty($trimestres)) {
-            $horasAcumuladas = $this->selectRaw('SEC_TO_TIME(SUM(TO_SECONDS(franjas.horaFin) - TO_SECONDS(franjas.horaInicio))) as horasAcumuladas')
+        if (!empty($trimestres)) {
+            $horasAcumuladas = $this->selectRaw('JUSTIFY_INTERVAL(INTERVAL \'1 second\' * SUM(EXTRACT(EPOCH FROM franjas."horaFin") - EXTRACT(EPOCH FROM franjas."horaInicio"))) as horasAcumuladas')
                 ->where('ambientes.id', $this->id)
                 ->join('horarios', 'ambientes.id', '=', 'horarios.ambiente_id')
                 ->join('franjas', 'horarios.franja_id', '=', 'franjas.id')
@@ -92,5 +92,4 @@ class Ambiente extends Model
             return $horasAcumuladas->horasAcumuladas;
         }
     }
-
 }

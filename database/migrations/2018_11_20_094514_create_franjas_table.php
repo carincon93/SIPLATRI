@@ -13,7 +13,7 @@ class CreateFranjasTable extends Migration
      */
     public function up()
     {
-        Schema::create('Franjas', function (Blueprint $table) {
+        Schema::create('franjas', function (Blueprint $table) {
             $table->increments('id');
             $table->time('horaInicio');
             $table->time('horaFin');
@@ -28,6 +28,6 @@ class CreateFranjasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Franjas');
+        Schema::dropIfExists('franjas');
     }
 }

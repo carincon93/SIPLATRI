@@ -13,15 +13,15 @@ use App\Competencia;
 use App\Municipio;
 use App\Ambiente;
 use App\Horario;
-Use App\Franja;
+use App\Franja;
 use App\User;
 
 // use Dompdf\Dompdf;
 // use View;
-use Gate;
 use App;
 
 use App\Exports\ExportarProgramacion;
+use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProgramacionController extends Controller
@@ -42,7 +42,7 @@ class ProgramacionController extends Controller
     public function index()
     {
         if (Gate::check('admin') || Gate::check('almacenista')) {
-            $trimestres     = Trimestre::where('programando', true)->firstOrFail();
+            $trimestres     = Trimestre::where('programando', true)->first();
             $programaciones = Programacion::where('trimestre', $trimestres->trimestre)->where('ano', $trimestres->ano)->get();
             $trimestresRegistrados = Programacion::selectRaw('DISTINCT(trimestre)')->get();
             $anosRegistrados = Programacion::selectRaw('DISTINCT(ano)')->get();
@@ -63,7 +63,7 @@ class ProgramacionController extends Controller
         // Permiso de administrador
         $this->authorize('admin');
 
-        $trimestre          = Trimestre::where('programando', true)->firstOrFail();
+        $trimestre          = Trimestre::where('programando', true)->first();
         $municipios         = Municipio::orderBy('nombre')->get();
         $programasFormacion = ProgramaFormacion::obtenerProgramasFormacionDisponibles()->get();
 
@@ -81,7 +81,7 @@ class ProgramacionController extends Controller
         // Permiso de administrador
         $this->authorize('admin');
 
-        $trimestre = Trimestre::where('programando', true)->firstOrFail();
+        $trimestre = Trimestre::where('programando', true)->first();
 
         $programacion = new Programacion;
         $programacion->fechaInicio              = $trimestre->fechaInicio;
@@ -103,14 +103,14 @@ class ProgramacionController extends Controller
      */
     public function show($id)
     {
-        $trimestre      = Trimestre::where('programando', true)->firstOrFail();
-        $programacion   = Programacion::where('id', $id)->firstOrFail();
+        $trimestre      = Trimestre::where('programando', true)->first();
+        $programacion   = Programacion::where('id', $id)->first();
 
         if (Gate::check('admin') && $trimestre->trimestre == $programacion->trimestre && $trimestre->ano == $programacion->ano || Gate::check('almacenista') && $trimestre->trimestre == $programacion->trimestre && $trimestre->ano == $programacion->ano) {
             $franjas            = Franja::orderBy('horaFin')->with('horarios')->get();
             $ambientes          = Ambiente::orderBy('nombre')->get();
             $instructores       = User::orderBy('nombre')->get();
-            $horasProgramadas   = Franja::selectRaw('SEC_TO_TIME(SUM(TO_SECONDS(franjas.horaFin) - TO_SECONDS(franjas.horaInicio))) as td')->join('horarios', 'franjas.id', 'horarios.franja_id')->join('programaciones', 'horarios.programacion_id', 'programaciones.id')->where('programaciones.id', $id)->first();
+            $horasProgramadas   = Franja::selectRaw('JUSTIFY_INTERVAL(INTERVAL \'1 second\' * SUM(EXTRACT(EPOCH FROM franjas."horaFin") - EXTRACT(EPOCH FROM franjas."horaInicio"))) AS td')->join('horarios', 'franjas.id', 'horarios.franja_id')->join('programaciones', 'horarios.programacion_id', 'programaciones.id')->where('programaciones.id', $id)->first();
 
             $asignaciones = $programacion->obtenerAsignaciones($programacion->id);
 
@@ -118,7 +118,6 @@ class ProgramacionController extends Controller
         } else {
             return redirect('/');
         }
-
     }
 
     /**
@@ -151,7 +150,7 @@ class ProgramacionController extends Controller
         // Permiso de administrador
         $this->authorize('admin');
 
-        $trimestre = Trimestre::where('programando', true)->firstOrFail();
+        $trimestre = Trimestre::where('programando', true)->first();
 
         $programacion = Programacion::findOrFail($id);
         $programacion->fechaInicio      = $trimestre->fechaInicio;
@@ -184,7 +183,7 @@ class ProgramacionController extends Controller
     public function exportar($id)
     {
         $programacion = Programacion::findOrFail($id);
-        return Excel::download(new ExportarProgramacion($id), $programacion->programaFormacion->numeroFicha.'.xlsx');
+        return Excel::download(new ExportarProgramacion($id), $programacion->programaFormacion->numeroFicha . '.xlsx');
     }
 
     // public function busqueda(Request $request)
@@ -195,7 +194,7 @@ class ProgramacionController extends Controller
     //
     //     $trimestresRegistrados  = Programacion::selectRaw('DISTINCT(trimestre)')->get();
     //     $anosRegistrados        = Programacion::selectRaw('DISTINCT(ano)')->get();
-    //     $trimestres             = Trimestre::where('activo', true)->firstOrFail();
+    //     $trimestres             = Trimestre::where('activo', true)->first();
     //
     //     return view('programaciones.index', compact('programaciones', 'trimestres', 'anosRegistrados', 'trimestresRegistrados'));
     // }

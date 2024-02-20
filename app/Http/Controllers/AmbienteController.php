@@ -14,10 +14,10 @@ use App\Franja;
 // use Dompdf\Dompdf;
 
 // use View;
-use Gate;
 use App;
 
 use App\Exports\ExportarProgramacionAmbiente;
+use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AmbienteController extends Controller
@@ -169,7 +169,7 @@ class AmbienteController extends Controller
     public function exportar($id)
     {
         $ambiente = Ambiente::findOrFail($id);
-        return Excel::download(new ExportarProgramacionAmbiente($id), $ambiente->nombre.'.xlsx');
+        return Excel::download(new ExportarProgramacionAmbiente($id), $ambiente->nombre . '.xlsx');
     }
 
     public function obtenerHorarioProgramado(Request $request)
@@ -193,7 +193,7 @@ class AmbienteController extends Controller
     // {
     //     $ambiente   = Ambiente::findOrFail($id);
     //     $franjas    = Franja::orderBy('horaFin')->get();
-    //     $trimestres = Trimestre::where('activo', true)->firstOrFail();
+    //     $trimestres = Trimestre::where('activo', true)->first();
     //
     //     $dompdf     = new Dompdf();
     //

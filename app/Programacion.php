@@ -42,7 +42,7 @@ class Programacion extends Model
 
     public function horario()
     {
-        $trimestres = Trimestre::where('programando', true)->firstOrFail();
+        $trimestres = Trimestre::where('programando', true)->first();
 
         return $this->horarios()->select('ambientes.nombre as nombreAmbiente', 'horarios.fechaInicio', 'horarios.fechaFin', 'users.nombre as nombreInstructor', 'horarios.franja_id', 'horarios.dia', 'programas_formacion.nombre as programaFormacionNombre', 'programas_formacion.numeroFicha')
             ->join('users', 'horarios.instructor_id', 'users.id')
@@ -57,13 +57,13 @@ class Programacion extends Model
 
     public function calcularHorasProgramadas()
     {
-        $horasProgramadas = $this->selectRaw('SEC_TO_TIME(SUM(TO_SECONDS(franjas.horaFin) - TO_SECONDS(franjas.horaInicio))) as horasProgramadas')
+        $horasProgramadas = $this->selectRaw('JUSTIFY_INTERVAL(INTERVAL \'1 second\' * SUM(EXTRACT(EPOCH FROM franjas."horaFin") - EXTRACT(EPOCH FROM franjas."horaInicio"))) AS horasProgramadas')
             ->join('horarios', 'programaciones.id', '=', 'horarios.programacion_id')
             ->join('franjas', 'horarios.franja_id', '=', 'franjas.id')
             ->where('programaciones.id', $this->id)
             ->first();
 
-        return $horasProgramadas->horasProgramadas;
+        return $horasProgramadas->horasprogramadas;
     }
 
     public function obtenerHorario($dia, $franja_id)
@@ -79,10 +79,10 @@ class Programacion extends Model
     }
 
     /**
-    * Obtener ambientes asignados
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\Response
-    */
+     * Obtener ambientes asignados
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function obtenerAsignaciones($programacionId)
     {
         $asignaciones = $this->select('ambientes.id as ambienteId', 'ambientes.nombre as nombreAmbiente', 'horarios.dia', 'horarios.fechaInicio', 'horarios.fechaFin', 'horarios.id', 'horarios.programacion_id', 'users.id as instructorId', 'users.nombre as nombreInstructor', 'horarios.franja_id', 'competencias.resumen')

@@ -14,10 +14,9 @@ use App\Trimestre;
 
 // use Dompdf\Dompdf;
 // use View;
-use Gate;
-use App;
 
 use App\Exports\ExportarProgramacionInstructor;
+use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
@@ -101,14 +100,14 @@ class UserController extends Controller
     {
         if (Gate::check('admin') || Gate::check('almacenista')) {
             $usuario    = User::findOrFail($id);
-            $trimestres = Trimestre::where('programando', true)->firstOrFail();
+            $trimestres = Trimestre::where('programando', true)->first();
             $franjas    = Franja::orderBy('horaFin')->get();
 
             $horario    = $usuario->horario()->get();
 
             $activarTab = false;
 
-            return view('users.ver', compact('usuario', 'horario', 'franjas' , 'activarTab'));
+            return view('users.ver', compact('usuario', 'horario', 'franjas', 'activarTab'));
         } else {
             return redirect('/');
         }
@@ -160,7 +159,7 @@ class UserController extends Controller
         $usuario->zonas()->sync($zonasId);
 
         return redirect()->route('users.index')->with('status', 'El usuario se ha modificado con éxito.');
-}
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -200,13 +199,12 @@ class UserController extends Controller
         $user = User::findOrFail($instructor_id);
 
         return $user->calcularHorasAcumuladas();
-
     }
 
     public function exportar($id)
     {
         $instructor = User::findOrFail($id);
-        return Excel::download(new ExportarProgramacionInstructor($id), $instructor->nombre.'.xlsx');
+        return Excel::download(new ExportarProgramacionInstructor($id), $instructor->nombre . '.xlsx');
     }
 
     public function obtenerHorarioProgramado(Request $request)
@@ -217,7 +215,7 @@ class UserController extends Controller
             $ano        = $request->get('ano');
 
             $usuario    = User::findOrFail($id);
-            $trimestres = Trimestre::where('programando', true)->firstOrFail();
+            $trimestres = Trimestre::where('programando', true)->first();
             $franjas    = Franja::orderBy('horaFin')->get();
 
             $horario    = $usuario->obtenerHorarioProgramado($trimestre, $ano)->get();
@@ -235,7 +233,7 @@ class UserController extends Controller
     //     $user       = User::findOrFail($id);
     //     $franjas    = Franja::orderBy('horaFin')->get();
     //     $horario    = $user->horario()->get();
-    //     $trimestres = Trimestre::where('activo', true)->firstOrFail();
+    //     $trimestres = Trimestre::where('activo', true)->first();
     //
     //     $dompdf     = new Dompdf();
     //

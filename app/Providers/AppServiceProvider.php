@@ -18,17 +18,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-      Schema::defaultStringLength(191);
+        Schema::defaultStringLength(191);
 
-      Route::resourceVerbs([
-          'create'  => 'crear',
-          'edit'    => 'editar',
-      ]);
+        Route::resourceVerbs([
+            'create'  => 'crear',
+            'edit'    => 'editar',
+        ]);
 
-      // Using Closure based composers...
-      View::composer('layouts.app', function ($view) {
-          $view->with('trimestreActivo', Trimestre::where('activo', true)->first())->with('trimestreEnProgramacion', Trimestre::where('programando', true)->first());
-      });
+        // Using Closure based composers...
+        View::composer('layouts.app', function ($view) {
+            $view->with('trimestreActivo', Trimestre::where('activo', true)->first())->with('trimestreEnProgramacion', Trimestre::where('programando', true)->first());
+        });
     }
 
     /**

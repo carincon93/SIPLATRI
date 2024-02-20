@@ -12,9 +12,9 @@ use App\Trimestre;
 use App\Franja;
 use App\User;
 
-use Gate;
 
 use App\Exports\ExportarProgramacionProgramaFormacion;
+use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProgramaFormacionController extends Controller
@@ -105,7 +105,6 @@ class ProgramaFormacionController extends Controller
         } else {
             return redirect('/');
         }
-
     }
 
     /**
@@ -172,6 +171,6 @@ class ProgramaFormacionController extends Controller
     public function exportar($id)
     {
         $programaFormacion = ProgramaFormacion::findOrFail($id);
-        return Excel::download(new ExportarProgramacionProgramaFormacion($id), $programaFormacion->numeroFicha.'.xlsx');
+        return Excel::download(new ExportarProgramacionProgramaFormacion($id), $programaFormacion->numeroFicha . '.xlsx');
     }
 }

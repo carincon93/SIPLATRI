@@ -7,25 +7,25 @@ use Illuminate\Foundation\Http\FormRequest;
 class ProgramaFormacionRequest extends FormRequest
 {
     /**
-    * Determine if the user is authorized to make this request.
-    *
-    * @return bool
-    */
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
     public function authorize()
     {
         return true;
     }
 
     /**
-    * Get the validation rules that apply to the request.
-    *
-    * @return array
-    */
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
     public function rules()
     {
         return [
             'nombre'                => 'required|max:191',
-            'numeroFicha'           => 'required|max:20|unique:programas_formacion,numeroFicha,'.$this->route('programas_formacion').',id',
+            'numeroFicha'           => $this->isMethod('PUT') ? 'required|max:20|unique:programas_formacion,numeroFicha,' . $this->route('programas_formacion') . ',id' : 'required|max:20|unique:programas_formacion,numeroFicha',
             'tipoFormacion'         => 'required|max:191',
             'duracion'              => 'required|max:191',
             'modalidad'             => 'required|max:191',

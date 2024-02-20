@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Trimestre;
 use App\Horario;
+use Carbon\Carbon;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -101,7 +102,7 @@ class User extends Authenticatable
         $trimestres = Trimestre::where('programando', true)->first();
 
         if (!empty($trimestres)) {
-            $horasAcumuladas = $this->selectRaw('SUM(TO_SECONDS(franjas.horaFin) - TO_SECONDS(franjas.horaInicio)) as horasAcumuladas')
+            $horasAcumuladas = $this->selectRaw('JUSTIFY_INTERVAL(INTERVAL \'1 second\' * SUM(EXTRACT(EPOCH FROM franjas."horaFin") - EXTRACT(EPOCH FROM franjas."horaInicio"))) as horasAcumuladas')
                 ->where('users.id', $this->id)
                 ->join('horarios', 'users.id', '=', 'horarios.instructor_id')
                 ->join('franjas', 'horarios.franja_id', '=', 'franjas.id')
@@ -110,27 +111,25 @@ class User extends Authenticatable
                 ->where('programaciones.ano', $trimestres->ano)
                 ->first();
 
-            $horasActividades = $this->selectRaw('TIME_TO_SEC(otras_actividades.horas) as horasActividades')
-                ->join('otras_actividades', 'users.id', '=', 'otras_actividades.user_id')
-                ->where('users.id', $this->id)
-                ->where('otras_actividades.trimestre', $trimestres->trimestre)
-                ->where('otras_actividades.ano', $trimestres->ano)
-                ->first();
+            $horasActividades = null;
+
+            // TODO: Arreglar
+            // $this->selectRaw('TIME_TO_SEC(otras_actividades.horas) as horasActividades')
+            // ->join('otras_actividades', 'users.id', '=', 'otras_actividades.user_id')
+            // ->where('users.id', $this->id)
+            // ->where('otras_actividades.trimestre', $trimestres->trimestre)
+            //     ->where('otras_actividades.ano', $trimestres->ano)
+            //     ->first();
 
             if ($horasActividades) {
-                $tiempo = $horasAcumuladas->horasAcumuladas + $horasActividades->horasActividades;
+                $tiempo = $horasAcumuladas->horasacumuladas + $horasActividades->horasActividades;
                 $hora   = floor($tiempo / 3600);
                 $min    = floor($tiempo / 60 % 60);
                 $seg    = floor($tiempo % 60);
 
                 $horasTotales = sprintf('%02d:%02d:%02d', $hora, $min, $seg);
             } else {
-                $tiempo = $horasAcumuladas->horasAcumuladas;
-                $hora   = floor($tiempo / 3600);
-                $min    = floor($tiempo / 60 % 60);
-                $seg    = floor($tiempo % 60);
-
-                $horasTotales = sprintf('%02d:%02d:%02d', $hora, $min, $seg);
+                $horasTotales = Carbon::createFromFormat('H:i:s', $horasAcumuladas->horasacumuladas);
             }
 
             return $horasTotales;
@@ -139,7 +138,7 @@ class User extends Authenticatable
 
     public function horario()
     {
-        $trimestres = Trimestre::where('activo', true)->firstOrFail();
+        $trimestres = Trimestre::where('activo', true)->first();
 
         return $this->horarios()->select('ambientes.nombre as nombreAmbiente', 'horarios.fechaInicio', 'horarios.fechaFin', 'users.nombre as nombreInstructor', 'horarios.franja_id', 'horarios.dia', 'programas_formacion.nombre as programaFormacionNombre', 'programas_formacion.numeroFicha')
             ->join('users', 'horarios.instructor_id', 'users.id')

@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return redirect('login');
 });
@@ -18,7 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 // Deshabilitar la ruta de registro
-Route::match(['get', 'post'], 'register', function(){
+Route::match(['get', 'post'], 'register', function () {
     return redirect('/');
 });
 

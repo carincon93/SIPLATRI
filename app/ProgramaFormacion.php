@@ -46,7 +46,7 @@ class ProgramaFormacion extends Model
 
     public function horario()
     {
-        $trimestres = Trimestre::where('programando', true)->firstOrFail();
+        $trimestres = Trimestre::where('programando', true)->first();
 
         return Horario::select('horarios.fechaInicio', 'horarios.fechaFin', 'users.nombre as nombreInstructor', 'horarios.franja_id', 'horarios.dia', 'ambientes.nombre as nombreAmbiente', 'programas_formacion.nombre as programaFormacionNombre', 'programas_formacion.numeroFicha')
             ->join('franjas', 'horarios.franja_id', 'franjas.id', 'users.nombre')
@@ -67,12 +67,12 @@ class ProgramaFormacion extends Model
     public function scopeObtenerProgramasFormacionDisponibles($query, $programa_formacion_id = null)
     {
         $programasFormacionRegistrados  = Programacion::select('programaciones.programa_formacion_id');
-        $trimestres                     = Trimestre::where('programando', true)->firstOrFail();
+        $trimestres                     = Trimestre::where('programando', true)->first();
 
         $programasFormacion = $query->orderBy('nombre')
-            ->whereDoesntHave('programaciones', function($query) use($programasFormacionRegistrados, $trimestres, $programa_formacion_id) {
+            ->whereDoesntHave('programaciones', function ($query) use ($programasFormacionRegistrados, $trimestres, $programa_formacion_id) {
                 $query->whereIn('programaciones.programa_formacion_id', $programasFormacionRegistrados)
-                ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+                    ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
                     ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
                     ->where('programas_formacion.id', '!=', $programa_formacion_id);
             });
@@ -82,7 +82,7 @@ class ProgramaFormacion extends Model
 
     public function scopeSumaAprendices($query)
     {
-        $sumaAprendices = $query->selectRaw('SUM(cantidadAprendices) as total');
+        $sumaAprendices = $query->selectRaw('SUM("cantidadAprendices") as total');
 
         return $sumaAprendices;
     }

@@ -17,12 +17,12 @@ class DatabaseSeeder extends Seeder
         User::create([
             'nombre'            => 'Cristian',
             'email'             => 'camilo@mail.com',
-            'password'          => bcrypt('admin123'),
+            'password'          =>  bcrypt('admin123'),
             'numeroDocumento'   => '1053',
             'genero'            => 'Masculino',
-            'rol'               => 'Admin',
-            'tipoContrato'      => 'Planta',
-            'estado'            => 'Activo',
+            'rol'               => 'admin',
+            'tipoContrato'      => 'planta',
+            'estado'            => 'activo',
             'horasAcumuladas'   => '40',
         ]);
     }

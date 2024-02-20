@@ -43,7 +43,6 @@ class HorarioController extends Controller
      */
     public function create($id)
     {
-
     }
 
     /**
@@ -69,11 +68,11 @@ class HorarioController extends Controller
         $rangoFechas                = $request->get('rangoFechas');
 
         // Si el coordinador selecciona "rango de fechas"
-        if ( $rangoFechas == 'si' ) {
+        if ($rangoFechas == 'si') {
             $franjas = Franja::where('id', '>=', $franja_id)->where('id', '<=', $hora_fin)->get();
 
-            for($i = 0; $i < count($franjas); $i++) {
-                if ( Horario::validacionConProgramacionActual($franjas[$i]->id, $ambiente_id, $dia, $instructor_id, $programacion_id) &&  Horario::validacionAmbiente($programacion_id, $franjas[$i]->id, $dia, $ambiente_id) && Horario::validacionInstructor($programacion_id, $franjas[$i]->id, $dia, $instructor_id) ) {
+            for ($i = 0; $i < count($franjas); $i++) {
+                if (Horario::validacionConProgramacionActual($franjas[$i]->id, $ambiente_id, $dia, $instructor_id, $programacion_id) &&  Horario::validacionAmbiente($programacion_id, $franjas[$i]->id, $dia, $ambiente_id) && Horario::validacionInstructor($programacion_id, $franjas[$i]->id, $dia, $instructor_id)) {
                     $data = array(
                         'programacion_id'           => $programacion_id,
                         'dia'                       => $dia,
@@ -97,7 +96,7 @@ class HorarioController extends Controller
             $mensaje = "La competencia se ha agregado correctamente.";
         } else {
 
-            if ( Horario::validacionAmbiente($programacion_id, $franja_id, $dia, $ambiente_id) && Horario::validacionInstructor($programacion_id, $franja_id, $dia, $instructor_id) ) {
+            if (Horario::validacionAmbiente($programacion_id, $franja_id, $dia, $ambiente_id) && Horario::validacionInstructor($programacion_id, $franja_id, $dia, $instructor_id)) {
                 $horario = new Horario;
                 $horario->programacion()->associate($programacion_id);
                 $horario->dia = $dia;
@@ -116,8 +115,8 @@ class HorarioController extends Controller
                 $status = "status-danger";
                 $mensaje = "La competencia no se ha agregado debido a un cruce.";
             }
-
         }
+
 
         return redirect()->route('programaciones.show', $programacion_id)->with($status, $mensaje);
     }
@@ -146,12 +145,12 @@ class HorarioController extends Controller
         $rangoFechas                = $request->get('rangoFechas');
         $hora_fin                   = $request->get('horaFin');
 
-        if ( $competenciaConFechas == 'si' && $rangoFechas == 'si' ) {
+        if ($competenciaConFechas == 'si' && $rangoFechas == 'si') {
 
             $franjas = Franja::where('id', '>=', $franja_id)->where('id', '<=', $hora_fin)->get();
 
-            for($i = 0; $i < count($franjas); $i++) {
-                if ( Horario::validacionConProgramacionActual($franjas[$i]->id, $ambiente_id, $dia, $instructor_id, $programacion_id) && Horario::validacionCompetenciaEnEsperaProgramacion($fecha_inicio, $fecha_fin, $franjas[$i]->id, $dia, $programacion_id) && Horario::validacionCompetenciaEnEsperaAmbiente($fecha_inicio, $fecha_fin, $franjas[$i]->id, $dia, $ambiente_id) && Horario::validacionCompetenciaEnEsperaInstructor($fecha_inicio, $fecha_fin, $franjas[$i]->id, $dia, $instructor_id) ) {
+            for ($i = 0; $i < count($franjas); $i++) {
+                if (Horario::validacionConProgramacionActual($franjas[$i]->id, $ambiente_id, $dia, $instructor_id, $programacion_id) && Horario::validacionCompetenciaEnEsperaProgramacion($fecha_inicio, $fecha_fin, $franjas[$i]->id, $dia, $programacion_id) && Horario::validacionCompetenciaEnEsperaAmbiente($fecha_inicio, $fecha_fin, $franjas[$i]->id, $dia, $ambiente_id) && Horario::validacionCompetenciaEnEsperaInstructor($fecha_inicio, $fecha_fin, $franjas[$i]->id, $dia, $instructor_id)) {
                     $data = array(
                         'programacion_id'           => $programacion_id,
                         'dia'                       => $dia,
@@ -167,7 +166,6 @@ class HorarioController extends Controller
                     );
 
                     $dataArray[] = $data;
-
                 }
             }
             Horario::insert($dataArray);
@@ -175,7 +173,7 @@ class HorarioController extends Controller
             $status = "status";
             $mensaje = "La competencia se ha agregado correctamente.";
         } else {
-            if ( Horario::validacionCompetenciaEnEsperaProgramacion($fecha_inicio, $fecha_fin, $franja_id, $dia, $programacion_id) && Horario::validacionCompetenciaEnEsperaAmbiente($fecha_inicio, $fecha_fin, $franja_id, $dia, $ambiente_id) && Horario::validacionCompetenciaEnEsperaInstructor($fecha_inicio, $fecha_fin, $franja_id, $dia, $instructor_id) ) {
+            if (Horario::validacionCompetenciaEnEsperaProgramacion($fecha_inicio, $fecha_fin, $franja_id, $dia, $programacion_id) && Horario::validacionCompetenciaEnEsperaAmbiente($fecha_inicio, $fecha_fin, $franja_id, $dia, $ambiente_id) && Horario::validacionCompetenciaEnEsperaInstructor($fecha_inicio, $fecha_fin, $franja_id, $dia, $instructor_id)) {
                 $horario = new Horario;
                 $horario->programacion()->associate($programacion_id);
                 $horario->dia = $request->get('dia');
@@ -248,8 +246,10 @@ class HorarioController extends Controller
 
         foreach ($asignacionesId as $key => $asignacionId) {
             $horario = Horario::findOrFail($asignacionId);
-            if ( Horario::validacionAmbiente($programacion_id, $horario->franja_id, $horario->dia, $ambiente_id)
-            && Horario::validacionInstructor($programacion_id, $horario->franja_id, $horario->dia, $instructor_id) ) {
+            if (
+                Horario::validacionAmbiente($programacion_id, $horario->franja_id, $horario->dia, $ambiente_id)
+                && Horario::validacionInstructor($programacion_id, $horario->franja_id, $horario->dia, $instructor_id)
+            ) {
                 // $horario->dia           = $dia;
                 $horario->fechaInicio   = $fecha_inicio;
                 $horario->fechaFin      = $fecha_fin;

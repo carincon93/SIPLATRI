@@ -39,10 +39,10 @@ class Competencia extends Model
 
     public function calcularHorasAcumuladas()
     {
-        $trimestres = Trimestre::where('programando', true)->firstOrFail();
+        $trimestres = Trimestre::where('programando', true)->first();
 
-        if(!empty($trimestres)) {
-            $horasAcumuladas = $this->selectRaw('SEC_TO_TIME(SUM(TO_SECONDS(franjas.horaFin) - TO_SECONDS(franjas.horaInicio))) as horasAcumuladas')
+        if (!empty($trimestres)) {
+            $horasAcumuladas = $this->selectRaw('JUSTIFY_INTERVAL(INTERVAL \'1 second\' * SUM(EXTRACT(EPOCH FROM franjas."horaFin") - EXTRACT(EPOCH FROM franjas."horaInicio"))) as horasAcumuladas')
                 ->where('competencias.id', $this->id)
                 ->join('horarios', 'competencias.id', '=', 'horarios.competencia_id')
                 ->join('franjas', 'horarios.franja_id', '=', 'franjas.id')

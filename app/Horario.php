@@ -116,9 +116,9 @@ class Horario extends Model
         }
     }
 
-    public function scopeValidacionAmbiente($query, $programacion_id, $franja_id, $dia, $ambiente_id) : bool
+    public function scopeValidacionAmbiente($query, $programacion_id, $franja_id, $dia, $ambiente_id): bool
     {
-        $trimestres = Trimestre::where('programando', true)->firstOrFail();
+        $trimestres = Trimestre::where('programando', true)->first();
 
         $validacion = $query->selectRaw('COUNT(*) as total')
             ->from('horarios')
@@ -127,7 +127,7 @@ class Horario extends Model
             ->where('horarios.ambiente_id', $ambiente_id)
             ->where('horarios.dia', $dia)
             ->where('programaciones.id', '!=', $programacion_id)
-            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
             ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
             ->first();
 
@@ -138,9 +138,9 @@ class Horario extends Model
         }
     }
 
-    public function scopeValidacionInstructor($query, $programacion_id, $franja_id, $dia, $instructor_id) : bool
+    public function scopeValidacionInstructor($query, $programacion_id, $franja_id, $dia, $instructor_id): bool
     {
-        $trimestres = Trimestre::where('programando', true)->firstOrFail();
+        $trimestres = Trimestre::where('programando', true)->first();
 
         $validacion = $query->selectRaw('COUNT(*) as total')
             ->from('horarios')
@@ -149,7 +149,7 @@ class Horario extends Model
             ->where('horarios.instructor_id', $instructor_id)
             ->where('horarios.dia', $dia)
             ->where('programaciones.id', '!=', $programacion_id)
-            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
             ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
             ->first();
 
@@ -160,9 +160,9 @@ class Horario extends Model
         }
     }
 
-    public function scopeValidacionConProgramacionActual($query, $franja_id, $ambiente_id, $dia, $instructor_id, $programacion_id) : bool
+    public function scopeValidacionConProgramacionActual($query, $franja_id, $ambiente_id, $dia, $instructor_id, $programacion_id): bool
     {
-        $trimestres = Trimestre::where('programando', true)->firstOrFail();
+        $trimestres = Trimestre::where('programando', true)->first();
 
         $validacion = $query->selectRaw('COUNT(*) as total')
             ->from('horarios')
@@ -170,7 +170,7 @@ class Horario extends Model
             ->where('horarios.programacion_id', $programacion_id)
             ->where('horarios.franja_id', $franja_id)
             ->where('horarios.dia', $dia)
-            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
             ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
             ->first();
 
@@ -181,9 +181,9 @@ class Horario extends Model
         }
     }
 
-    public function scopeValidacionCompetenciaEnEsperaProgramacion($query, $fechaInicio, $fechaFin, $franja_id, $dia, $programacion_id) : bool
+    public function scopeValidacionCompetenciaEnEsperaProgramacion($query, $fechaInicio, $fechaFin, $franja_id, $dia, $programacion_id): bool
     {
-        $trimestres = Trimestre::where('programando', true)->firstOrFail();
+        $trimestres = Trimestre::where('programando', true)->first();
 
         $validacion = $query->selectRaw('COUNT(*) as total')
             ->from('horarios')
@@ -193,9 +193,9 @@ class Horario extends Model
             ->where('horarios.dia', $dia)
             ->where('horarios.fechaInicio', '<=', $fechaInicio)
             ->where('horarios.fechaFin', '>=', $fechaInicio)
-            ->where('horarios.fechaInicio', '<=', $fechaFin )
+            ->where('horarios.fechaInicio', '<=', $fechaFin)
             ->where('horarios.fechaFin', '<=', $fechaFin)
-            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
             ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
             ->where('programaciones.id', $programacion_id)
 
@@ -203,9 +203,9 @@ class Horario extends Model
             ->where('horarios.dia', $dia)
             ->where('horarios.fechaInicio', '>=', $fechaInicio)
             ->where('horarios.fechaFin', '>=', $fechaInicio)
-            ->where('horarios.fechaInicio', '<=', $fechaFin )
-            ->where('horarios.fechaFin', '>=', $fechaFin )
-            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+            ->where('horarios.fechaInicio', '<=', $fechaFin)
+            ->where('horarios.fechaFin', '>=', $fechaFin)
+            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
             ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
             ->where('programaciones.id', $programacion_id)
 
@@ -213,9 +213,9 @@ class Horario extends Model
             ->where('horarios.dia', $dia)
             ->where('horarios.fechaInicio', '<=', $fechaInicio)
             ->where('horarios.fechaFin', '>=', $fechaInicio)
-            ->where('horarios.fechaInicio', '<=', $fechaFin )
-            ->where('horarios.fechaFin', '>=', $fechaFin )
-            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+            ->where('horarios.fechaInicio', '<=', $fechaFin)
+            ->where('horarios.fechaFin', '>=', $fechaFin)
+            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
             ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
             ->where('programaciones.id', $programacion_id)
 
@@ -223,9 +223,9 @@ class Horario extends Model
             ->where('horarios.dia', $dia)
             ->where('horarios.fechaInicio', '>=', $fechaInicio)
             ->where('horarios.fechaFin', '>=', $fechaInicio)
-            ->where('horarios.fechaInicio', '<=', $fechaFin )
-            ->where('horarios.fechaFin', '<=', $fechaFin )
-            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+            ->where('horarios.fechaInicio', '<=', $fechaFin)
+            ->where('horarios.fechaFin', '<=', $fechaFin)
+            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
             ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
             ->where('programaciones.id', $programacion_id)
 
@@ -238,9 +238,9 @@ class Horario extends Model
         }
     }
 
-    public function scopeValidacionCompetenciaEnEsperaAmbiente($query, $fechaInicio, $fechaFin, $franja_id, $dia, $ambiente_id) : bool
+    public function scopeValidacionCompetenciaEnEsperaAmbiente($query, $fechaInicio, $fechaFin, $franja_id, $dia, $ambiente_id): bool
     {
-        $trimestres = Trimestre::where('programando', true)->firstOrFail();
+        $trimestres = Trimestre::where('programando', true)->first();
 
         $validacion = $query->selectRaw('COUNT(*) as total')
             ->from('horarios')
@@ -250,9 +250,9 @@ class Horario extends Model
             ->where('horarios.dia', $dia)
             ->where('horarios.fechaInicio', '<=', $fechaInicio)
             ->where('horarios.fechaFin', '>=', $fechaInicio)
-            ->where('horarios.fechaInicio', '<=', $fechaFin )
+            ->where('horarios.fechaInicio', '<=', $fechaFin)
             ->where('horarios.fechaFin', '<=', $fechaFin)
-            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
             ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
             ->where('horarios.ambiente_id', $ambiente_id)
 
@@ -260,9 +260,9 @@ class Horario extends Model
             ->where('horarios.dia', $dia)
             ->where('horarios.fechaInicio', '>=', $fechaInicio)
             ->where('horarios.fechaFin', '>=', $fechaInicio)
-            ->where('horarios.fechaInicio', '<=', $fechaFin )
-            ->where('horarios.fechaFin', '>=', $fechaFin )
-            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+            ->where('horarios.fechaInicio', '<=', $fechaFin)
+            ->where('horarios.fechaFin', '>=', $fechaFin)
+            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
             ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
             ->where('horarios.ambiente_id', $ambiente_id)
 
@@ -270,9 +270,9 @@ class Horario extends Model
             ->where('horarios.dia', $dia)
             ->where('horarios.fechaInicio', '<=', $fechaInicio)
             ->where('horarios.fechaFin', '>=', $fechaInicio)
-            ->where('horarios.fechaInicio', '<=', $fechaFin )
-            ->where('horarios.fechaFin', '>=', $fechaFin )
-            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+            ->where('horarios.fechaInicio', '<=', $fechaFin)
+            ->where('horarios.fechaFin', '>=', $fechaFin)
+            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
             ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
             ->where('horarios.ambiente_id', $ambiente_id)
 
@@ -280,9 +280,9 @@ class Horario extends Model
             ->where('horarios.dia', $dia)
             ->where('horarios.fechaInicio', '>=', $fechaInicio)
             ->where('horarios.fechaFin', '>=', $fechaInicio)
-            ->where('horarios.fechaInicio', '<=', $fechaFin )
-            ->where('horarios.fechaFin', '<=', $fechaFin )
-            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+            ->where('horarios.fechaInicio', '<=', $fechaFin)
+            ->where('horarios.fechaFin', '<=', $fechaFin)
+            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
             ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
             ->where('horarios.ambiente_id', $ambiente_id)
 
@@ -295,9 +295,9 @@ class Horario extends Model
         }
     }
 
-    public function scopeValidacionCompetenciaEnEsperaInstructor($query, $fechaInicio, $fechaFin, $franja_id, $dia, $instructor_id) : bool
+    public function scopeValidacionCompetenciaEnEsperaInstructor($query, $fechaInicio, $fechaFin, $franja_id, $dia, $instructor_id): bool
     {
-        $trimestres = Trimestre::where('programando', true)->firstOrFail();
+        $trimestres = Trimestre::where('programando', true)->first();
 
         $validacion = $query->selectRaw('COUNT(*) as total')
             ->from('horarios')
@@ -307,9 +307,9 @@ class Horario extends Model
             ->where('horarios.dia', $dia)
             ->where('horarios.fechaInicio', '<=', $fechaInicio)
             ->where('horarios.fechaFin', '>=', $fechaInicio)
-            ->where('horarios.fechaInicio', '<=', $fechaFin )
+            ->where('horarios.fechaInicio', '<=', $fechaFin)
             ->where('horarios.fechaFin', '<=', $fechaFin)
-            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
             ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
             ->where('horarios.instructor_id', $instructor_id)
 
@@ -317,9 +317,9 @@ class Horario extends Model
             ->where('horarios.dia', $dia)
             ->where('horarios.fechaInicio', '>=', $fechaInicio)
             ->where('horarios.fechaFin', '>=', $fechaInicio)
-            ->where('horarios.fechaInicio', '<=', $fechaFin )
-            ->where('horarios.fechaFin', '>=', $fechaFin )
-            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+            ->where('horarios.fechaInicio', '<=', $fechaFin)
+            ->where('horarios.fechaFin', '>=', $fechaFin)
+            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
             ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
             ->where('horarios.instructor_id', $instructor_id)
 
@@ -327,9 +327,9 @@ class Horario extends Model
             ->where('horarios.dia', $dia)
             ->where('horarios.fechaInicio', '<=', $fechaInicio)
             ->where('horarios.fechaFin', '>=', $fechaInicio)
-            ->where('horarios.fechaInicio', '<=', $fechaFin )
-            ->where('horarios.fechaFin', '>=', $fechaFin )
-            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+            ->where('horarios.fechaInicio', '<=', $fechaFin)
+            ->where('horarios.fechaFin', '>=', $fechaFin)
+            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
             ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
             ->where('horarios.instructor_id', $instructor_id)
 
@@ -337,9 +337,9 @@ class Horario extends Model
             ->where('horarios.dia', $dia)
             ->where('horarios.fechaInicio', '>=', $fechaInicio)
             ->where('horarios.fechaFin', '>=', $fechaInicio)
-            ->where('horarios.fechaInicio', '<=', $fechaFin )
-            ->where('horarios.fechaFin', '<=', $fechaFin )
-            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null )
+            ->where('horarios.fechaInicio', '<=', $fechaFin)
+            ->where('horarios.fechaFin', '<=', $fechaFin)
+            ->where('programaciones.trimestre', !empty($trimestres) ? $trimestres->trimestre : null)
             ->where('programaciones.ano', !empty($trimestres) ? $trimestres->ano : null)
             ->where('horarios.instructor_id', $instructor_id)
 

@@ -60,12 +60,12 @@ class OtraActividadController extends Controller
         // Permiso de administrador
         $this->authorize('admin');
 
-        $trimestre = Trimestre::where('programando', true)->firstOrFail();
+        $trimestre = Trimestre::where('programando', true)->first();
 
         $actividad = new OtraActividad;
         $actividad->tipo_actividad  = $request->get('tipo_actividad');
         $actividad->dia             = $request->get('dia');
-        $actividad->horas           = $request->get('horas').':00:00';
+        $actividad->horas           = $request->get('horas') . ':00:00';
         $actividad->trimestre       = $trimestre->trimestre;
         $actividad->ano             = $trimestre->ano;
         $actividad->personal()->associate($request->get('user_id'));
@@ -118,12 +118,12 @@ class OtraActividadController extends Controller
         // Permiso de administrador
         $this->authorize('admin');
 
-        $trimestre = Trimestre::where('programando', true)->firstOrFail();
+        $trimestre = Trimestre::where('programando', true)->first();
 
         $actividad = OtraActividad::findOrFail($id);
         $actividad->tipo_actividad  = $request->get('tipo_actividad');
         $actividad->dia             = $request->get('dia');
-        $actividad->horas           = $request->get('horas').':00:00';
+        $actividad->horas           = $request->get('horas') . ':00:00';
         $actividad->trimestre       = $trimestre->trimestre;
         $actividad->ano             = $trimestre->ano;
         $actividad->personal()->associate($request->get('user_id'));

@@ -84,7 +84,6 @@ class TrimestreController extends Controller
         $trimestre = Trimestre::findOrFail($id);
 
         return view('trimestres.ver', compact('trimestre'));
-
     }
 
     /**
@@ -126,7 +125,7 @@ class TrimestreController extends Controller
         $trimestre->save();
 
         return redirect()->route('trimestres.index')->with('status', 'El trimestre se ha modificado con éxito.');
-}
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -169,7 +168,7 @@ class TrimestreController extends Controller
         $fecha  = $request->get('fecha');
         $ano    = date('Y', strtotime($fecha));
 
-        $items = Trimestre::select('trimestre')->where('ano', $ano)->get()->map(function($item) {
+        $items = Trimestre::select('trimestre')->where('ano', $ano)->get()->map(function ($item) {
             return $item->trimestre;
         });
 
@@ -186,7 +185,7 @@ class TrimestreController extends Controller
     //     // Permiso de administrador
     //     $this->authorize('admin');
     //
-    //     $trimestres = Trimestre::where('activo', true)->firstOrFail();
+    //     $trimestres = Trimestre::where('activo', true)->first();
     //
     //     return view('trimestres.crear', compact('trimestres'));
     // }

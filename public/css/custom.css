@@ -668,6 +668,8 @@ div#DataTables_Table_0_wrapper > .row > div:nth-child(2) {
   }
 }
 
+#tooltip {
+  display: inline-block;
   background: #ffffff;
   color: #643045;
   font-weight: bold;
